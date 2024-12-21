@@ -83,8 +83,10 @@ public class CouponTaskJobHandler extends IJobHandler {
         return Results.success();
     }
 
+    //execute() 这是 XXL-Job 调度任务的入口方法。当定时任务触发时，XXL-Job 框架会调用此方法。
     @XxlJob(value = "couponTemplateTask")
     public void execute() throws Exception {
+        //initId 用于标识已经处理过的任务的最大 ID，now 用于记录当前时间。
         long initId = 0;
         Date now = new Date();
 
