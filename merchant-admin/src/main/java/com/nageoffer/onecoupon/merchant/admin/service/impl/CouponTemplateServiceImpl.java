@@ -157,7 +157,7 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
 
         couponTemplateDelayExecuteStatusProducer.sendMessage(templateDelayEvent);
 
-        // 添加优惠券模板 ID 到布隆过滤器
+        // 添加优惠券模板 ID 到布隆过滤器  用于解决缓存穿透问题。
         couponTemplateQueryBloomFilter.add(String.valueOf(couponTemplateDO.getId()));
     }
 
@@ -187,6 +187,8 @@ public class CouponTemplateServiceImpl extends ServiceImpl<CouponTemplateMapper,
         CouponTemplateDO couponTemplateDO = couponTemplateMapper.selectOne(queryWrapper);
         return BeanUtil.toBean(couponTemplateDO, CouponTemplateQueryRespDTO.class);
     }
+
+
 
     @LogRecord(
             success = TERMINATE_COUPON_TEMPLATE_LOG_CONTENT,

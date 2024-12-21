@@ -76,6 +76,7 @@ public interface CouponTemplateService extends IService<CouponTemplateDO> {
      */
     CouponTemplateQueryRespDTO findCouponTemplateById(String couponTemplateId);
 
+
     /**
      * 结束优惠券模板
      *
