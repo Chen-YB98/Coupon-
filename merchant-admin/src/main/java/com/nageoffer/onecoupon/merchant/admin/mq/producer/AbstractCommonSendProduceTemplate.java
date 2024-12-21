@@ -45,10 +45,7 @@ import org.springframework.messaging.Message;
 
 /**
  * RocketMQ 抽象公共发送消息组件
- * <p>
- * 作者：马丁
- * 加项目群：早加入就是优势！500人内部项目群，分享的知识总有你需要的 <a href="https://t.zsxq.com/cw7b9" />
- * 开发时间：2024-07-13
+
  */
 @RequiredArgsConstructor
 @Slf4j(topic = "CommonSendProduceTemplate")
@@ -80,6 +77,7 @@ public abstract class AbstractCommonSendProduceTemplate<T> {
      * @return 消息发送返回结果
      */
     public SendResult sendMessage(T messageSendEvent) {
+        // 调用子类实现的方法来构建扩展属性实体。
         BaseSendExtendDTO baseSendExtendDTO = buildBaseSendExtendParam(messageSendEvent);
         SendResult sendResult;
         try {
@@ -89,7 +87,7 @@ public abstract class AbstractCommonSendProduceTemplate<T> {
                 destinationBuilder.append(":").append(baseSendExtendDTO.getTag());
             }
 
-            // 延迟时间不为空，发送任意延迟消息，否则发送普通消息
+            // 如果设置了延迟时间，则发送带有延迟的消息；否则发送普通消息。
             if (baseSendExtendDTO.getDelayTime() != null) {
                 sendResult = rocketMQTemplate.syncSendDeliverTimeMills(
                         destinationBuilder.toString(),
