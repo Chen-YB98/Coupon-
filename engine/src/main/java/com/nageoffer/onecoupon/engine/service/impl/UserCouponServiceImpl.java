@@ -293,10 +293,24 @@ public class UserCouponServiceImpl implements UserCouponService {
 
     @Override
     public void createPaymentRecord(CouponCreatePaymentReqDTO requestParam) {
-        RLock lock = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()));
-        boolean tryLock = lock.tryLock();
-        if (!tryLock) {
-            throw new ClientException("正在创建优惠券结算单，请稍候再试");
+        //RLock lock = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()));
+        //boolean tryLock = lock.tryLock();
+        //if (!tryLock) {
+        //    throw new ClientException("正在创建优惠券结算单，请稍候再试");
+        //}
+
+        //使用红锁
+        // 创建一个红锁实例
+        RLock lock1 = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()) + ":1");
+        RLock lock2 = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()) + ":2");
+        RLock lock2 = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()) + ":3");
+        // ... 添加更多的锁实例，确保至少有3个独立的Redis实例
+        RLock[] locks = {lock1, lock2 , lock3};
+
+        // 尝试获取红锁
+        boolean isLocked = redissonClient.getRedLock(locks).tryLock();
+        if (!isLocked) {
+            throw new ClientException("正在核销优惠券结算单，请稍候再试");
         }
 
         try {
@@ -432,9 +446,23 @@ public class UserCouponServiceImpl implements UserCouponService {
 
     @Override
     public void processPayment(CouponProcessPaymentReqDTO requestParam) {
-        RLock lock = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()));
-        boolean tryLock = lock.tryLock();
-        if (!tryLock) {
+        //RLock lock = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()));
+        //boolean tryLock = lock.tryLock();
+        //if (!tryLock) {
+        //    throw new ClientException("正在创建优惠券结算单，请稍候再试");
+        //}
+
+        //使用红锁
+        // 创建一个红锁实例
+        RLock lock1 = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()) + ":1");
+        RLock lock2 = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()) + ":2");
+        RLock lock2 = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()) + ":3");
+        // ... 添加更多的锁实例，确保至少有3个独立的Redis实例
+        RLock[] locks = {lock1, lock2 , lock3};
+
+        // 尝试获取红锁
+        boolean isLocked = redissonClient.getRedLock(locks).tryLock();
+        if (!isLocked) {
             throw new ClientException("正在核销优惠券结算单，请稍候再试");
         }
 
@@ -480,10 +508,24 @@ public class UserCouponServiceImpl implements UserCouponService {
 
     @Override
     public void processRefund(CouponProcessRefundReqDTO requestParam) {
-        RLock lock = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()));
-        boolean tryLock = lock.tryLock();
-        if (!tryLock) {
-            throw new ClientException("正在执行优惠券退款，请稍候再试");
+        //RLock lock = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()));
+        //boolean tryLock = lock.tryLock();
+        //if (!tryLock) {
+        //    throw new ClientException("正在创建优惠券结算单，请稍候再试");
+        //}
+
+        //使用红锁
+        // 创建一个红锁实例
+        RLock lock1 = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()) + ":1");
+        RLock lock2 = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()) + ":2");
+        RLock lock2 = redissonClient.getLock(String.format(EngineRedisConstant.LOCK_COUPON_SETTLEMENT_KEY, requestParam.getCouponId()) + ":3");
+        // ... 添加更多的锁实例，确保至少有3个独立的Redis实例
+        RLock[] locks = {lock1, lock2 , lock3};
+
+        // 尝试获取红锁
+        boolean isLocked = redissonClient.getRedLock(locks).tryLock();
+        if (!isLocked) {
+            throw new ClientException("正在核销优惠券结算单，请稍候再试");
         }
 
         try {
